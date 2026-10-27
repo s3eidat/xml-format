@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self' data: blob:; connect-src 'self' data: blob:; worker-src 'self' blob:; manifest-src 'self'; form-action 'none'; base-uri 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<title>XML Format — Free XML Formatter, Validator, XPath Tester &amp; XML to JSON | S3eidat Tools</title>
+<meta name="description" content="Validate, pretty-print and minify XML, explore it as a collapsible tree, test XPath expressions with namespaces, and convert XML to JSON. Free, private, runs in your browser.">
+<meta property="og:title" content="XML Format — free, private XML formatter and XPath tester">
+<meta property="og:description" content="Validate, format, query and convert XML. Runs 100% in your browser.">
+<link rel="icon" href="kit/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="kit/kit.css">
+<link rel="stylesheet" href="app.css">
+<script src="kit/kit.js"></script>
+<!--s3:seo-->
+<link rel="canonical" href="https://s3eidat.github.io/xml-format/">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0d0f12">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="S3eidat Tools">
+<meta property="og:url" content="https://s3eidat.github.io/xml-format/">
+<meta property="og:image" content="https://s3eidat.github.io/xml-format/screenshot.png">
+<meta property="og:image:width" content="1280"><meta property="og:image:height" content="800">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="XML Format — Format, validate and query XML">
+<meta name="twitter:description" content="Format, validate and query XML. Free, private and runs 100% in your browser: no sign-up, no uploads.">
+<meta name="twitter:image" content="https://s3eidat.github.io/xml-format/screenshot.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "XML Format", "url": "https://s3eidat.github.io/xml-format/", "description": "Format, validate and query XML. Free, private and runs 100% in your browser: no sign-up, no uploads.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (web browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "image": "https://s3eidat.github.io/xml-format/screenshot.png", "author": {"@type": "Person", "name": "s3eidat", "url": "https://github.com/s3eidat"}}</script>
+<!--/s3:seo-->
+</head>
+<body data-tool="xml-format">
+<main class="s3-main">
+  <section class="s3-hero">
+    <h1>XML Format</h1>
+    <p>Validate, pretty-print, minify and query XML, or turn it into JSON. The XML is parsed as data and never rendered as a page.</p>
+  </section>
+
+  <div class="grid-2 xf-grid">
+    <section class="card stack">
+      <div class="row between">
+        <h2>Input</h2>
+        <div class="row">
+          <button class="btn ghost small" id="sample">Sample</button>
+          <label class="btn ghost small" id="open">Open file<input type="file" accept=".xml,.svg,.xsd,.xsl,.xslt,.rss,.atom,.plist,.config,.csproj,.txt,application/xml,text/xml,text/plain" hidden></label>
+          <button class="btn ghost small" id="clear">Clear</button>
+        </div>
+      </div>
+      <label class="field"><span class="sr">XML input</span>
+        <textarea class="textarea" id="input" spellcheck="false" dir="auto" placeholder="Paste XML here, e.g. &lt;note&gt;&lt;to&gt;Omar&lt;/to&gt;&lt;/note&gt;"></textarea>
+      </label>
+      <div class="row xf-opts">
+        <label class="field">Indent
+          <select class="select" id="indent">
+            <option value="2">2 spaces</option>
+            <option value="4">4 spaces</option>
+            <option value="tab">Tab</option>
+          </select>
+        </label>
+        <label class="check"><input type="checkbox" id="nocom"> Remove comments</label>
+      </div>
+      <div class="row">
+        <button class="btn primary" id="format">Format</button>
+        <button class="btn" id="minify">Minify</button>
+        <span class="grow"></span>
+        <span class="chip" id="status">Waiting for XML</span>
+      </div>
+    </section>
+
+    <section class="card stack">
+      <div class="row between">
+        <div class="seg" id="view" role="group" aria-label="View">
+          <button aria-pressed="true" data-v="text">XML</button>
+          <button aria-pressed="false" data-v="tree">Tree</button>
+          <button aria-pressed="false" data-v="json">JSON</button>
+        </div>
+        <div class="row">
+          <button class="btn small" id="copy"><svg class="i"><use href="#i-copy"/></svg>Copy</button>
+          <button class="btn small" id="save"><svg class="i"><use href="#i-download"/></svg><span id="ext">.xml</span></button>
+        </div>
+      </div>
+      <pre class="out xf-out" id="out" tabindex="0"></pre>
+      <div class="out xf-out xf-tree" id="tree" hidden></div>
+      <div class="stats" id="stats"></div>
+    </section>
+  </div>
+
+  <section class="card stack mt">
+    <div class="row between">
+      <h2>XPath tester</h2>
+      <div class="row" id="ns"></div>
+    </div>
+    <div class="row xf-xrow">
+      <label class="field grow">XPath expression
+        <input class="input mono" id="xpath" spellcheck="false" autocomplete="off" value="//book[price &gt; 30]/title">
+      </label>
+      <button class="btn primary" id="run">Run</button>
+    </div>
+    <div class="row"><span class="chip" id="xstatus">—</span><span class="faint" id="xinfo"></span></div>
+    <div class="xf-results" id="xres"></div>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
